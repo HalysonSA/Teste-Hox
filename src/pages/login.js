@@ -33,8 +33,9 @@ function Login() {
         if (response !== null) {
             localStorage.setItem('token', response);
             window.location.href = '/';
+        } else {
+            toast.error('Usuário ou senha inválidos');
         }
-        toast.error('Usuário ou senha inválidos');
     }
 
     return (
@@ -46,12 +47,8 @@ function Login() {
                         <Image src={Hox} w="70px" h="70px" alt="hox" />
                     </Center>
                     <Center mb="3em">
-                        <Text
-                            fontSize="3xl"
-                            textTransform={'capitalize'}
-                            fontWeight={'bold'}
-                        >
-                            welcome to hox
+                        <Text fontSize="3xl" fontWeight={'bold'}>
+                            Bem Vindo a Hox
                         </Text>
                     </Center>
                     <FormLabel> Email</FormLabel>
@@ -60,10 +57,10 @@ function Login() {
                         type="email"
                         _hover={{ borderColor: 'black' }}
                         focusBorderColor="black"
-                        placeholder="Enter your email"
+                        placeholder="Digite seu email"
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <FormLabel> Password </FormLabel>
+                    <FormLabel> Senha </FormLabel>
 
                     <InputGroup>
                         <Input
@@ -71,7 +68,7 @@ function Login() {
                             focusBorderColor="black"
                             pr="4.5rem"
                             type={show ? 'text' : 'password'}
-                            placeholder="Enter password"
+                            placeholder="********"
                             onChange={(e) => setPassword(e.target.value)}
                         />
                         <InputRightElement width="4.5rem">
@@ -86,14 +83,14 @@ function Login() {
                         mt="3"
                         _focus={{ bg: 'black' }}
                         _hover={{
-                            boxShadow: '0 5px 20px 0px rgb(0,0,0,0.5)',
+                            boxShadow:
+                                '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)',
                         }}
                         onClick={handleSubmit}
                     >
                         <FormLabel m="0" color="white" fontWeight={'bold'}>
                             Login
                         </FormLabel>
-                        
                     </Button>
                 </FormControl>
             </Center>
