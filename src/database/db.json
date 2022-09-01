@@ -1,3 +1,57 @@
 {
-    "produtos":[]
+  "products": [
+    {
+      "description": "Laranja",
+      "dateManu": "2022-08-25T20:34",
+      "dateExp": "2022-09-03T20:34",
+      "price": "2",
+      "id": 1
+    },
+    {
+      "description": "Pessego",
+      "dateManu": "2022-08-25T20:34",
+      "dateExp": "2022-09-03T20:34",
+      "price": "4",
+      "id": 2
+    },
+    {
+      "description": "Morango",
+      "dateManu": "2022-08-28T20:34",
+      "dateExp": "2022-09-05T20:34",
+      "price": "12",
+      "id": 3
+    },
+    {
+      "description": "Caixa de papelão",
+      "dateManu": "2022-08-28T20:34",
+      "dateExp": "",
+      "price": "5",
+      "id": 4
+    },
+    {
+      "description": "Manga",
+      "dateManu": "2022-08-19T20:55",
+      "dateExp": "2022-08-18T20:55",
+      "price": "3",
+      "id": 5
+    },
+    {
+      "description": "Lata",
+      "dateManu": "2022-08-18T21:11",
+      "price": "14",
+      "id": 6
+    },
+    {
+      "description": "Lata",
+      "dateManu": "2022-08-03T21:11",
+      "price": "23",
+      "id": 7
+    },
+    {
+      "description": "Isopor ",
+      "dateManu": "2022-08-26T21:16",
+      "price": "34",
+      "id": 8
+    }
+  ]
 }
