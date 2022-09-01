@@ -1,5 +1,9 @@
+import products from '../database/db.json';
 /* eslint-disable import/no-anonymous-default-export */
-export default function (state = [], action) {
+
+const initialState = products.products;
+
+export default function (state = initialState, action) {
     switch (action.type) {
         case 'ADD_PRODUCT':
             return [...state, action.payload];

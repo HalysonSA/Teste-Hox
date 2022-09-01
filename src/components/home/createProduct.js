@@ -9,6 +9,7 @@ import {
     Checkbox,
     InputGroup,
     InputLeftAddon,
+    Button,
 } from '@chakra-ui/react';
 import { toast, ToastContainer } from 'react-toastify';
 import { useForm } from 'react-hook-form';
@@ -16,7 +17,6 @@ import { api } from '../../api/api';
 import { ADD_PRODUCT } from '../../redux/actions';
 
 function CreateProductPage() {
-
     const dispatch = useDispatch();
 
     const [perishable, setPerishable] = useState(false);
@@ -47,12 +47,17 @@ function CreateProductPage() {
                 <ToastContainer />
                 <form onSubmit={handleSubmit(handleChange)}>
                     <FormControl>
+                        <Center mb="3">
+                            <Text fontSize="2xl" fontWeight="bold">
+                                Cadastro de Produtos
+                            </Text>
+                        </Center>
                         <Checkbox
                             fontSize={'md'}
                             fontWeight={'medium'}
                             onChange={() => setPerishable(!perishable)}
                         >
-                            Perecível
+                            Perecível?
                         </Checkbox>
 
                         <Text fontSize={'md'} fontWeight={'medium'}>
@@ -91,7 +96,8 @@ function CreateProductPage() {
                             <InputLeftAddon children="R$" />
                             <Input {...register('price')} type="number" />
                         </InputGroup>
-                        <Input
+                        <Button
+                            w="100%"
                             mt="2"
                             bg="black"
                             color="white"
@@ -102,7 +108,9 @@ function CreateProductPage() {
                                     '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)',
                             }}
                             type="submit"
-                        />
+                        >
+                            Cadastrar
+                        </Button>
                     </FormControl>
                 </form>
             </Center>
