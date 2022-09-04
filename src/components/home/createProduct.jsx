@@ -39,9 +39,9 @@ function CreateProductPage() {
         }
     }
 
-    function handleChange(data) {
+    async function handleChange(data) {
         if (verifyPerishable(data)) {
-            api.post('/products', data).then((response) => {
+            await api.post('/products', data).then((response) => {
                 dispatch(addProduct(response.data));
                 toast.success('Produto cadastrado com sucesso');
             });

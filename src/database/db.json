@@ -17,6 +17,56 @@
       "dateManu": "1231-03-12",
       "price": "123",
       "id": 4
+    },
+    {
+      "description": "adsfsdafds",
+      "dateManu": "2022-09-29",
+      "dateExp": "2022-09-30",
+      "price": "123",
+      "id": 5
+    },
+    {
+      "description": "asdasda",
+      "dateManu": "2022-09-13",
+      "dateExp": "2022-09-27",
+      "price": "12323",
+      "id": 6
+    },
+    {
+      "description": "sdasd",
+      "dateManu": "2022-09-29",
+      "price": "12322",
+      "id": 7
+    },
+    {
+      "description": "asdsda",
+      "dateManu": "0013-03-12",
+      "price": "123",
+      "id": 8
+    },
+    {
+      "description": "1231",
+      "dateManu": "0123-03-12",
+      "price": "123",
+      "id": 9
+    },
+    {
+      "description": "1231",
+      "dateManu": "0123-03-12",
+      "price": "123",
+      "id": 10
+    },
+    {
+      "description": "asda",
+      "dateManu": "2321-03-12",
+      "price": "213",
+      "id": 11
+    },
+    {
+      "description": "asdsadfasfsdfsdf",
+      "dateManu": "2312-03-12",
+      "price": "1232121",
+      "id": 12
     }
   ]
 }

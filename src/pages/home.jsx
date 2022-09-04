@@ -21,8 +21,8 @@ function Home() {
     }
 
     return (
-        <>
-            <Box color="white" h="50px" p="2">
+        <Tabs bg="black">
+            <TabList color="white">
                 <Flex
                     alignItems={'center'}
                     fontSize={'2xl'}
@@ -41,23 +41,19 @@ function Home() {
                         Sair
                     </Button>
                 </Flex>
-            </Box>
-            <Tabs bg="black">
-                <TabList color="white">
-                    <Tab>Cadastro de Produtos</Tab>
-                    <Tab>Relatório de Produtos</Tab>
-                </TabList>
+                <Tab>Cadastro de Produtos</Tab>
+                <Tab>Relatório de Produtos</Tab>
+            </TabList>
 
-                <TabPanels>
-                    <TabPanel>
-                        <CreateProductPage />
-                    </TabPanel>
-                    <TabPanel>
-                        <TableProductsPage />
-                    </TabPanel>
-                </TabPanels>
-            </Tabs>
-        </>
+            <TabPanels>
+                <TabPanel>
+                    <CreateProductPage />
+                </TabPanel>
+                <TabPanel>
+                    <TableProductsPage />
+                </TabPanel>
+            </TabPanels>
+        </Tabs>
     );
 }
 

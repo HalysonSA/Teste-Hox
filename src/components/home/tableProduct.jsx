@@ -112,7 +112,7 @@ export function TableProductsPage() {
                     </Tbody>
                 </Table>
                 <Center>
-                    <ButtonGroup mt='10' color="white" position={'absolute'}>
+                    <ButtonGroup mt='10' p='5' color="white" position={'absolute'}>
                         <Button
                             bg="transparent"
                             _focus={{ bg: 'transparent' }}
