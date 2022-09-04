@@ -50,7 +50,7 @@ function Login() {
                         </Center>
                         <Center mb="3em">
                             <Text fontSize="3xl" fontWeight={'bold'}>
-                                Bem Vindo a Hox
+                                Bem Vindo
                             </Text>
                         </Center>
                         <FormLabel> Email</FormLabel>

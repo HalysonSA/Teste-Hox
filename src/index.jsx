@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+import GlobalStyle from './assets/globalstyle';
 
 import { Provider } from 'react-redux';
 import store from './redux/store';
@@ -17,6 +18,7 @@ function Private({ children }) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
+        <GlobalStyle/>
         <ChakraProvider>
             <BrowserRouter>
                 <Routes>
