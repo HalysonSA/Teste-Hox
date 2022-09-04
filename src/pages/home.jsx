@@ -12,9 +12,12 @@ import {
     Text,
     Button,
     Flex,
+    useMediaQuery,
 } from '@chakra-ui/react';
 
 function Home() {
+    const [isLargerThan1280] = useMediaQuery('(min-width: 1280px)');
+
     function handleLogout() {
         localStorage.clear();
         window.location.reload();
@@ -29,17 +32,28 @@ function Home() {
                     fontWeight={'bold'}
                     alignContent={'center'}
                 >
-                    <Text>Home</Text>
-                    <Button
-                        right={'0'}
-                        position={'absolute'}
-                        onClick={handleLogout}
-                        bg="transparent"
-                        _hover={{ bg: 'transparent' }}
-                        _focus={{ bg: 'transparent' }}
-                    >
-                        Sair
-                    </Button>
+                    {isLargerThan1280 ? <Text>Home</Text> : null}
+                    {isLargerThan1280 ? (
+                        <Button
+                            right={'0'}
+                            position={'absolute'}
+                            onClick={handleLogout}
+                            bg="transparent"
+                            _hover={{ bg: 'transparent' }}
+                            _focus={{ bg: 'transparent' }}
+                        >
+                            Sair
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={handleLogout}
+                            bg="transparent"
+                            _hover={{ bg: 'transparent' }}
+                            _focus={{ bg: 'transparent' }}
+                        >
+                            Sair
+                        </Button>
+                    )}
                 </Flex>
                 <Tab>Cadastro de Produtos</Tab>
                 <Tab>Relatório de Produtos</Tab>

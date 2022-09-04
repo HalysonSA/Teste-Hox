@@ -35,7 +35,7 @@
     {
       "description": "sdasd",
       "dateManu": "2022-09-29",
-      "price": "12322",
+      "price":"23",
       "id": 7
     },
     {
@@ -43,18 +43,6 @@
       "dateManu": "0013-03-12",
       "price": "123",
       "id": 8
-    },
-    {
-      "description": "1231",
-      "dateManu": "0123-03-12",
-      "price": "123",
-      "id": 9
-    },
-    {
-      "description": "1231",
-      "dateManu": "0123-03-12",
-      "price": "123",
-      "id": 10
     },
     {
       "description": "asda",
@@ -67,6 +55,12 @@
       "dateManu": "2312-03-12",
       "price": "1232121",
       "id": 12
+    },
+    {
+      "description": "teste",
+      "dateManu": "1231-03-12",
+      "price": "213",
+      "id": 13
     }
   ]
 }
