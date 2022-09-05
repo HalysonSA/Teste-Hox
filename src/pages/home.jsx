@@ -28,11 +28,12 @@ function Home() {
             <TabList color="white">
                 <Flex
                     alignItems={'center'}
+                    p='2'
                     fontSize={'2xl'}
                     fontWeight={'bold'}
                     alignContent={'center'}
                 >
-                    {isLargerThan1280 ? <Text>Home</Text> : null}
+                    {isLargerThan1280 ? <Text>Hox</Text> : null}
                     {isLargerThan1280 ? (
                         <Button
                             right={'0'}

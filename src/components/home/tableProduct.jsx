@@ -13,8 +13,8 @@ import {
     ButtonGroup,
     Center,
     useBoolean,
+    
 } from '@chakra-ui/react';
-
 import { api } from '../../api/api';
 import { toast } from 'react-toastify';
 
@@ -23,6 +23,7 @@ import { useDispatch } from 'react-redux';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 
 import { orderProduct, deleteProduct } from '../../redux/reducers';
+import { EditProduct} from './editProduct';
 
 export function TableProductsPage() {
     const dispatch = useDispatch();
@@ -31,6 +32,8 @@ export function TableProductsPage() {
     const totalProducts = products.length;
 
     const [decreasing, setDecreasing] = useBoolean();
+
+    const [product, setProduct] = useState({});
 
     function handleOrderPrice() {
         setDecreasing.toggle();
@@ -130,12 +133,16 @@ export function TableProductsPage() {
             dispatch(deleteProduct(id));
         });
     }
-    async function editProduct(id) {
-        console.log(id);
-    }
+
 
     return (
         <div>
+
+            {product.id ? (
+                <EditProduct product={product}/>
+            ) : null}
+
+
             <TableContainer>
                 <Table fontSize={'sm'} colorScheme="white" color="white">
                     <Thead>
@@ -154,8 +161,9 @@ export function TableProductsPage() {
                     </Thead>
                     <Tbody>
                         {page.map((product) => (
-                            <Tr key={product.id} p="0">
+                            <Tr key={product.id} m="0">
                                 <Td>{product.description}</Td>
+
                                 <Td>{product.dateManu}</Td>
                                 <Td>
                                     {product.dateExp ? product.dateExp : '-'}
@@ -169,6 +177,7 @@ export function TableProductsPage() {
                                 <Td>
                                     <Button
                                         bg="transparent"
+                                        onClick={() => setProduct(product)}
                                         _focus={{ bg: 'transparent' }}
                                         _hover={{ bg: 'transparent' }}
                                     >

@@ -50,8 +50,8 @@ function CreateProductPage() {
     }
 
     return (
-        <Flex justify="center" bg="black" align="center" h="100vh">
-            <Center bg="white" h="70vh" px="2em" borderRadius={'2xl'}>
+        <Flex justify="center" bg="black" align="center" h="80vh">
+            <Center bg="white" h="70vh" px="2em" borderRadius={'md'}>
                 <ToastContainer />
                 <form onSubmit={handleSubmit(handleChange)}>
                     <FormControl>
