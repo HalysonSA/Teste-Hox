@@ -2,17 +2,23 @@ import products from '../database/db.json';
 
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = products.products || [];
+const initialState = [];
 
 const ProductSlice = createSlice({
     name: 'products',
-    initialState: initialState,
+    initialState,
     reducers: {
+        setProducts: (state, action) => {
+            state.push(...action.payload);
+        },
         addProduct: (state, action) => {
             state.push(action.payload);
         },
         deleteProduct: (state, action) => {
-            state.filter((product) => product.id !== action.payload);
+            const index = state.findIndex(
+                (product) => product.id === action.payload
+            );
+            state.splice(index, 1);
         },
         updateProduct: (state, action) => {
             const index = state.findIndex(
@@ -26,25 +32,33 @@ const ProductSlice = createSlice({
             const { type } = action.payload;
             if (type === 'priceGrow') {
                 state.sort((a, b) => a.price - b.price);
-            } else if (type === 'priceDesc') {
+            } else if (type === 'priceDec') {
                 state.sort((a, b) => b.price - a.price);
             } else if (type === 'dateManuGrow') {
                 state.sort(
                     (a, b) => new Date(a.dateManu) - new Date(b.dateManu)
                 );
-            } else if (type === 'dateManuDesc') {
+            } else if (type === 'dateManuDec') {
                 state.sort(
                     (a, b) => new Date(b.dateManu) - new Date(a.dateManu)
                 );
             } else if (type === 'dateExpGrow') {
-                state.sort((a, b) => new Date(a.dateExp) - new Date(b.dateExp));
-            } else if (type === 'dateExpDesc') {
-                state.sort((a, b) => new Date(b.dateExp) - new Date(a.dateExp));
+                state.sort((a, b) =>
+                    a.dateExp === undefined
+                        ? (a.dateExp = '1111-11-11')
+                        : new Date(a.dateExp) - new Date(b.dateExp)
+                );
+            } else if (type === 'dateExpDec') {
+                state.sort((a, b) =>
+                    b.dateExp === undefined
+                        ? (b.dateExp = '1111-11-11')
+                        : new Date(b.dateExp) - new Date(a.dateExp)
+                );
             } else if (type === 'descriptionGrow') {
                 state.sort((a, b) =>
                     a.description.localeCompare(b.description)
                 );
-            } else if (type === 'descriptionDesc') {
+            } else if (type === 'descriptionDec') {
                 state.sort((a, b) =>
                     b.description.localeCompare(a.description)
                 );
@@ -52,5 +66,6 @@ const ProductSlice = createSlice({
         },
     },
 });
-export const { addProduct, deleteProduct, orderProduct } = ProductSlice.actions;
+export const { addProduct, deleteProduct, orderProduct, setProducts } =
+    ProductSlice.actions;
 export default ProductSlice.reducer;

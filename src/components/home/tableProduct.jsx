@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
     Table,
@@ -13,27 +13,50 @@ import {
     ButtonGroup,
     Center,
     useBoolean,
-    
+    useDisclosure,
+    Modal,
+    ModalContent,
 } from '@chakra-ui/react';
 import { api } from '../../api/api';
 import { toast } from 'react-toastify';
 
 import { useDispatch } from 'react-redux';
 
-import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import {
+    EditIcon,
+    DeleteIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
+} from '@chakra-ui/icons';
 
 import { orderProduct, deleteProduct } from '../../redux/reducers';
-import { EditProduct} from './editProduct';
+import { EditProduct } from './editProduct';
+import { setProducts } from '../../redux/reducers';
+import moment from 'moment/moment';
 
 export function TableProductsPage() {
     const dispatch = useDispatch();
+    const [decreasing, setDecreasing] = useBoolean();
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const [pageNumber, setPageNumber] = useState(1);
+    const [productSet, setProduct] = useState({});
+
     const products = useSelector((state) => state.product);
+
     const totalProducts = products.length;
 
-    const [decreasing, setDecreasing] = useBoolean();
-
-    const [product, setProduct] = useState({});
+    useEffect(() => {
+        async function getProducts() {
+            try {
+                const products = await api.get('/products');
+                dispatch(setProducts(products.data));
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getProducts();
+    }, []);
 
     function handleOrderPrice() {
         setDecreasing.toggle();
@@ -41,7 +64,7 @@ export function TableProductsPage() {
         if (decreasing) {
             dispatch(
                 orderProduct({
-                    type: 'priceDesc',
+                    type: 'priceDec',
                 })
             );
         } else {
@@ -59,7 +82,7 @@ export function TableProductsPage() {
         if (decreasing) {
             dispatch(
                 orderProduct({
-                    type: 'dateManuDesc',
+                    type: 'dateManuDec',
                 })
             );
         } else {
@@ -77,7 +100,7 @@ export function TableProductsPage() {
         if (decreasing) {
             dispatch(
                 orderProduct({
-                    type: 'dateExpDesc',
+                    type: 'dateExpDec',
                 })
             );
         } else {
@@ -95,7 +118,7 @@ export function TableProductsPage() {
         if (decreasing) {
             dispatch(
                 orderProduct({
-                    type: 'descriptionDesc',
+                    type: 'descriptionDec',
                 })
             );
         } else {
@@ -128,21 +151,18 @@ export function TableProductsPage() {
     }
 
     async function deleteProductbyId(id) {
-        return await api.delete(`/products/${id}`).then((response) => {
+        return await api.delete(`/products/${id}`).then(() => {
             toast.success('Produto deletado com sucesso');
             dispatch(deleteProduct(id));
         });
     }
-
+    function handleEditProduct(product) {
+        setProduct(product);
+        onOpen();
+    }
 
     return (
         <div>
-
-            {product.id ? (
-                <EditProduct product={product}/>
-            ) : null}
-
-
             <TableContainer>
                 <Table fontSize={'sm'} colorScheme="white" color="white">
                     <Thead>
@@ -164,9 +184,17 @@ export function TableProductsPage() {
                             <Tr key={product.id} m="0">
                                 <Td>{product.description}</Td>
 
-                                <Td>{product.dateManu}</Td>
                                 <Td>
-                                    {product.dateExp ? product.dateExp : '-'}
+                                    {moment(product.dateManu).format(
+                                        'DD/MM/YYYY'
+                                    )}
+                                </Td>
+                                <Td>
+                                    {product.dateExp === '1111-11-11'
+                                        ? '-'
+                                        : moment(product.dateExp).format(
+                                              'DD/MM/YYYY'
+                                          )}
                                 </Td>
                                 <Td>
                                     R$
@@ -177,12 +205,38 @@ export function TableProductsPage() {
                                 <Td>
                                     <Button
                                         bg="transparent"
-                                        onClick={() => setProduct(product)}
+                                        onClick={() =>
+                                            handleEditProduct(product)
+                                        }
                                         _focus={{ bg: 'transparent' }}
                                         _hover={{ bg: 'transparent' }}
                                     >
                                         <EditIcon />
                                     </Button>
+                                    <Modal
+                                        initialFocusRef={null}
+                                        finalFocusRef={null}
+                                        isOpen={isOpen}
+                                        onClose={onClose}
+                                    >
+                                        <ModalContent bg="gray.700" p="4">
+                                            {productSet.id ? (
+                                                <EditProduct
+                                                    product={productSet}
+                                                />
+                                            ) : null}
+                                            <Center>
+                                                <Button
+                                                    borderRadius={'0'}
+                                                    w="80%"
+                                                    onClick={onClose}
+                                                    colorScheme={'red'}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            </Center>
+                                        </ModalContent>
+                                    </Modal>
                                 </Td>
                                 <Td>
                                     <Button
@@ -213,10 +267,12 @@ export function TableProductsPage() {
                             _hover={{ bg: 'transparent' }}
                             onClick={previousPage}
                         >
-                            Anterior
+                            {pageNumber === 1 ? null : <ArrowLeftIcon />}
                         </Button>
                         <Button
                             bg="transparent"
+                            fontSize={'lg'}
+                            fontWeight={'Bold'}
                             _focus={{ bg: 'transparent' }}
                             _hover={{ bg: 'transparent' }}
                         >
@@ -228,7 +284,9 @@ export function TableProductsPage() {
                             _hover={{ bg: 'transparent' }}
                             onClick={nextPage}
                         >
-                            Próximo
+                            {pageNumber < totalProducts / 10 ? (
+                                <ArrowRightIcon />
+                            ) : null}
                         </Button>
                     </ButtonGroup>
                 </Center>
