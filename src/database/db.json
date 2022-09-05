@@ -2,9 +2,10 @@
   "products": [
     {
       "description": "Luva",
-      "dateManu": "2022-05-23",
-      "price": "15",
-      "id": 1
+      "dateManu": "2002-03-12",
+      "price": "23",
+      "id": 1,
+      "dateExp": "2010-07-30"
     },
     {
       "description": "Manga",
