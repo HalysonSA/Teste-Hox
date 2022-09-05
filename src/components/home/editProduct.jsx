@@ -30,8 +30,6 @@ export function EditProduct(product_) {
     }
 
     async function handleUpdate(data) {
-        console.log(data);
-        console.log(verifyPerishable(data));
         if (verifyPerishable(data)) {
             await api.patch(`/products/${product.id}`, data).then(() => {
                 toast.success('Produto cadastrado com sucesso');
@@ -57,7 +55,7 @@ export function EditProduct(product_) {
                     <Input
                         type="text"
                         variant="flushed"
-                        {...register('description',{ required: true })}
+                        {...register('description', { required: true })}
                         placeholder={product.description}
                     />
                 </Box>
@@ -66,7 +64,7 @@ export function EditProduct(product_) {
                         Data de Fabricação
                     </Text>
                     <Input
-                        {...register('dateManu',{ required: true })}
+                        {...register('dateManu', { required: true })}
                         variant="flushed"
                         type="date"
                         max="9999-12-31"
@@ -79,7 +77,10 @@ export function EditProduct(product_) {
                     </Text>
                     <Input
                         disabled={!perishable}
-                        {...register('dateExp', perishable ? { required: true } : {})}
+                        {...register(
+                            'dateExp',
+                            perishable ? { required: true } : {}
+                        )}
                         variant="flushed"
                         type="date"
                         max="9999-12-31"
@@ -91,7 +92,7 @@ export function EditProduct(product_) {
                         Preço
                     </Text>
                     <Input
-                        {...register('price',{ required: true })}
+                        {...register('price', { required: true })}
                         variant="flushed"
                         placeholder={'R$' + product.price}
                         type="text"
