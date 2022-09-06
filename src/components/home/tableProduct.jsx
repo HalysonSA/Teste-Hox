@@ -43,7 +43,7 @@ export function TableProductsPage() {
     const [productSet, setProduct] = useState({});
 
     const products = useSelector((state) => state.product);
-
+    
     const totalProducts = products.length;
 
     useEffect(() => {
@@ -151,11 +151,16 @@ export function TableProductsPage() {
     }
 
     async function deleteProductbyId(id) {
-        return await api.delete(`/products/${id}`).then(() => {
-            toast.success('Produto deletado com sucesso');
+        try {
+            await api.delete(`/products/${id}`).then((res) => {
+                toast.success('Produto deletado com sucesso!');
+            });
             dispatch(deleteProduct(id));
-        });
+        } catch (error) {
+            toast.error('Erro ao deletar produto');
+        }
     }
+
     function handleEditProduct(product) {
         setProduct(product);
         onOpen();

@@ -2,17 +2,15 @@ import { Button, Center, Box, Input, Text, Checkbox } from '@chakra-ui/react';
 import { useState } from 'react';
 import { api } from '../../api/api';
 import { toast, ToastContainer } from 'react-toastify';
-
+import { updateProduct } from '../../redux/reducers';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 export function EditProduct(product_) {
     const { product } = product_;
     const [perishable, setPerishable] = useState(false);
-    const { register, handleSubmit } = useForm();
-    useEffect(() => {
-        product.dateExp != '1111-11-11' ? setPerishable(true) : setPerishable(false);
-    }, [perishable]);
+    const { register, handleSubmit, reset } = useForm();
+    const dispatch = useDispatch();
 
     function verifyPerishable(data) {
         var dateManu = data.dateManu;
@@ -26,23 +24,28 @@ export function EditProduct(product_) {
         return true;
     }
 
-    async function handleUpdate(data) {
+    async function handleUpdate(data, e) {
+
+        data.id = product.id;
+        e.preventDefault();
+
         if (verifyPerishable(data)) {
             await api.patch(`/products/${product.id}`, data).then(() => {
-                toast.success('Produto cadastrado com sucesso');
+                dispatch(updateProduct(data));
+                toast.success('Produto atualizado com sucesso');
             });
         }
-        return false;
+        e.target.reset();
     }
 
     return (
         <Center>
+            <ToastContainer />
             <Box color="white" w="80%" fontSize={'md'}>
                 <form onSubmit={handleSubmit(handleUpdate)}>
                     <Checkbox
                         fontSize={'md'}
                         fontWeight={'medium'}
-                        isChecked={perishable}
                         onChange={() => setPerishable(!perishable)}
                     >
                         Perecível?
@@ -55,6 +58,7 @@ export function EditProduct(product_) {
                             type="text"
                             variant="flushed"
                             {...register('description', { required: true })}
+                            defaultValue={product.description}
                             placeholder={product.description}
                         />
                     </Box>
@@ -64,6 +68,7 @@ export function EditProduct(product_) {
                         </Text>
                         <Input
                             {...register('dateManu', { required: true })}
+                            defaultValue={product.dateManu}
                             variant="flushed"
                             type="date"
                             max="9999-12-31"
@@ -75,6 +80,7 @@ export function EditProduct(product_) {
                             Data de Validade
                         </Text>
                         <Input
+                            defaultValue={product.dateExp}
                             disabled={!perishable}
                             {...register(
                                 'dateExp',
@@ -91,6 +97,7 @@ export function EditProduct(product_) {
                             Preço
                         </Text>
                         <Input
+                            defaultValue={product.price}
                             {...register('price', { required: true })}
                             variant="flushed"
                             placeholder={'R$' + product.price}
