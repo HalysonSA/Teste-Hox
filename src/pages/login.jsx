@@ -41,7 +41,7 @@ function Login() {
 
     return (
         <Flex justify="center" bg="black" align="center" h="100vh">
-            <Center bg="white" h="70vh" px="2em" borderRadius={'2xl'}>
+            <Center bg="white" h="70vh" maxH="500px" px="2em" borderRadius={'2xl'}>
                 <ToastContainer />
                 <form onSubmit={handleSubmit(handleChange)}>
                     <FormControl>
