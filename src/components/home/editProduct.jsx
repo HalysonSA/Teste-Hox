@@ -14,7 +14,7 @@ export function EditProduct(product_) {
 
     function verifyPerishable(data) {
         var dateManu = data.dateManu;
-        var dateExp = data.dateExp || product.dateExp;
+        var dateExp = data.dateExp;
 
         if (dateManu > dateExp || dateManu === dateExp) {
             toast.error('Fora do prazo de validade');
@@ -25,7 +25,6 @@ export function EditProduct(product_) {
     }
 
     async function handleUpdate(data, e) {
-
         data.id = product.id;
         e.preventDefault();
 
@@ -39,82 +38,88 @@ export function EditProduct(product_) {
     }
 
     return (
-        <Center>
+        <>
             <ToastContainer />
-            <Box color="white" w="80%" fontSize={'md'}>
-                <form onSubmit={handleSubmit(handleUpdate)}>
-                    <Checkbox
-                        fontSize={'md'}
-                        fontWeight={'medium'}
-                        onChange={() => setPerishable(!perishable)}
-                    >
-                        Perecível?
-                    </Checkbox>
-                    <Box>
-                        <Text fontSize={'md'} fontWeight={'medium'}>
-                            Descrição
-                        </Text>
-                        <Input
-                            type="text"
-                            variant="flushed"
-                            {...register('description', { required: true })}
-                            defaultValue={product.description}
-                            placeholder={product.description}
-                        />
-                    </Box>
-                    <Box>
-                        <Text fontSize={'md'} fontWeight={'medium'}>
-                            Data de Fabricação
-                        </Text>
-                        <Input
-                            {...register('dateManu', { required: true })}
-                            defaultValue={product.dateManu}
-                            variant="flushed"
-                            type="date"
-                            max="9999-12-31"
-                            size="md"
-                        />
-                    </Box>
-                    <Box>
-                        <Text fontSize={'md'} fontWeight={'medium'}>
-                            Data de Validade
-                        </Text>
-                        <Input
-                            defaultValue={product.dateExp}
-                            disabled={!perishable}
-                            {...register(
-                                'dateExp',
-                                perishable ? { required: true } : {}
-                            )}
-                            variant="flushed"
-                            type="date"
-                            max="9999-12-31"
-                            size="md"
-                        />
-                    </Box>
-                    <Box>
-                        <Text fontSize={'md'} fontWeight={'medium'}>
-                            Preço
-                        </Text>
-                        <Input
-                            defaultValue={product.price}
-                            {...register('price', { required: true })}
-                            variant="flushed"
-                            placeholder={'R$' + product.price}
-                            type="text"
-                        />
-                    </Box>
-                    <Button
-                        mt="5"
-                        w="100%"
-                        borderRadius={'0'}
-                        colorScheme={'green'}
-                        type="submit"
-                    >
-                        Salvar
-                    </Button>
-                </form>
-            </Box>
-        </Center>
+            <Center>
+                <Box color="white" w="80%" fontSize={'md'}>
+                    <form onSubmit={handleSubmit(handleUpdate)}>
+                        <Checkbox
+                            fontSize={'md'}
+                            fontWeight={'medium'}
+                            onChange={() => setPerishable(!perishable)}
+                        >
+                            Perecível?
+                        </Checkbox>
+                        <Box>
+                            <Text fontSize={'md'} fontWeight={'medium'}>
+                                Descrição
+                            </Text>
+                            <Input
+                                type="text"
+                                variant="flushed"
+                                {...register('description', { required: true })}
+                                defaultValue={product.description}
+                                placeholder={product.description}
+                            />
+                        </Box>
+                        <Box>
+                            <Text fontSize={'md'} fontWeight={'medium'}>
+                                Data de Fabricação
+                            </Text>
+                            <Input
+                                {...register('dateManu', { required: true })}
+                                defaultValue={product.dateManu}
+                                variant="flushed"
+                                type="date"
+                                max="9999-12-31"
+                                size="md"
+                            />
+                        </Box>
+                        <Box>
+                            <Text fontSize={'md'} fontWeight={'medium'}>
+                                Data de Validade
+                            </Text>
+                            <Input
+                                defaultValue={
+                                    product.dateExp != '1111-11-11'
+                                        ? product.dateExp
+                                        : null
+                                }
+                                disabled={!perishable}
+                                {...register(
+                                    'dateExp',
+                                    perishable ? { required: true } : {}
+                                )}
+                                variant="flushed"
+                                type="date"
+                                max="9999-12-31"
+                                size="md"
+                            />
+                        </Box>
+                        <Box>
+                            <Text fontSize={'md'} fontWeight={'medium'}>
+                                Preço
+                            </Text>
+                            <Input
+                                defaultValue={product.price}
+                                {...register('price', { required: true })}
+                                variant="flushed"
+                                placeholder={'R$' + product.price}
+                                type="text"
+                            />
+                        </Box>
+                        <Button
+                            mt="5"
+                            w="100%"
+                            borderRadius={'0'}
+                            colorScheme={'green'}
+                            type="submit"
+                        >
+                            Salvar
+                        </Button>
+                    </form>
+                </Box>
+            </Center>
+        </>
     );
 }

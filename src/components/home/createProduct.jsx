@@ -40,7 +40,7 @@ function CreateProductPage() {
 
     async function handleCreate(data, e) {
         e.preventDefault();
-        
+
         const verify = verifyPerishable(data);
 
         try {
@@ -48,7 +48,7 @@ function CreateProductPage() {
                 await api.post('/products', data).then((response) => {
                     dispatch(addProduct(response.data));
                 });
-                
+
                 toast.success('Produto cadastrado com sucesso');
             }
         } catch (err) {
@@ -58,8 +58,8 @@ function CreateProductPage() {
     }
 
     return (
-        <Flex justify="center" bg="black" align="center" h="80vh">
-            <Center bg="white" h="70vh" px="2em" borderRadius={'md'}>
+        <Flex justify="center" bg="black" align="center" h="80vh" >
+            <Center bg="white" h="70vh" px="2em" borderRadius={'md'} maxH='500px'>
                 <ToastContainer />
                 <form onSubmit={handleSubmit(handleCreate)}>
                     <FormControl>

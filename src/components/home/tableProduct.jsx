@@ -16,6 +16,7 @@ import {
     useDisclosure,
     Modal,
     ModalContent,
+    ModalOverlay,
 } from '@chakra-ui/react';
 import { api } from '../../api/api';
 import { toast } from 'react-toastify';
@@ -27,6 +28,8 @@ import {
     DeleteIcon,
     ArrowLeftIcon,
     ArrowRightIcon,
+    ArrowDownIcon,
+    ArrowUpIcon,
 } from '@chakra-ui/icons';
 
 import { orderProduct, deleteProduct } from '../../redux/reducers';
@@ -41,9 +44,10 @@ export function TableProductsPage() {
 
     const [pageNumber, setPageNumber] = useState(1);
     const [productSet, setProduct] = useState({});
+    const [orderType, setOrderType] = useState('type');
 
     const products = useSelector((state) => state.product);
-    
+
     const totalProducts = products.length;
 
     useEffect(() => {
@@ -62,12 +66,14 @@ export function TableProductsPage() {
         setDecreasing.toggle();
 
         if (decreasing) {
+            setOrderType('priceDec');
             dispatch(
                 orderProduct({
                     type: 'priceDec',
                 })
             );
         } else {
+            setOrderType('priceGrow');
             dispatch(
                 orderProduct({
                     type: 'priceGrow',
@@ -80,12 +86,14 @@ export function TableProductsPage() {
         setDecreasing.toggle();
 
         if (decreasing) {
+            setOrderType('dateManuDec');
             dispatch(
                 orderProduct({
                     type: 'dateManuDec',
                 })
             );
         } else {
+            setOrderType('dateManuGrow');
             dispatch(
                 orderProduct({
                     type: 'dateManuGrow',
@@ -98,12 +106,14 @@ export function TableProductsPage() {
         setDecreasing.toggle();
 
         if (decreasing) {
+            setOrderType('dateExpDec');
             dispatch(
                 orderProduct({
                     type: 'dateExpDec',
                 })
             );
         } else {
+            setOrderType('dateExpGrow');
             dispatch(
                 orderProduct({
                     type: 'dateExpGrow',
@@ -116,12 +126,14 @@ export function TableProductsPage() {
         setDecreasing.toggle();
 
         if (decreasing) {
+            setOrderType('descriptionDec');
             dispatch(
                 orderProduct({
                     type: 'descriptionDec',
                 })
             );
         } else {
+            setOrderType('descriptionGrow');
             dispatch(
                 orderProduct({
                     type: 'descriptionGrow',
@@ -168,92 +180,133 @@ export function TableProductsPage() {
 
     return (
         <div>
-            <TableContainer>
+            <TableContainer m="7">
                 <Table fontSize={'sm'} colorScheme="white" color="white">
                     <Thead>
                         <Tr>
-                            <Th onClick={handleOrderDescription}>Descrição</Th>
+                            <Th onClick={handleOrderDescription}>
+                                Descrição
+                                {orderType === 'descriptionDec' ? (
+                                    <ArrowDownIcon />
+                                ) : orderType === 'descriptionGrow' ? (
+                                    <ArrowUpIcon />
+                                ) : null}
+                            </Th>
                             <Th onClick={handleOrderDateManu}>
-                                Data de Fabricação
+                                Data de Fabricação{' '}
+                                {orderType === 'dateManuDec' ? (
+                                    <ArrowDownIcon />
+                                ) : orderType === 'dateManuGrow' ? (
+                                    <ArrowUpIcon />
+                                ) : null}
                             </Th>
                             <Th onClick={handleOrderDateExp}>
-                                Data de Validade
+                                Data de Validade{' '}
+                                {orderType === 'dateExpDec' ? (
+                                    <ArrowDownIcon />
+                                ) : orderType === 'dateExpGrow' ? (
+                                    <ArrowUpIcon />
+                                ) : null}
                             </Th>
-                            <Th onClick={handleOrderPrice}>Preço</Th>
-                            <Th>Editar</Th>
-                            <Th>Remover</Th>
+                            <Th onClick={handleOrderPrice}>
+                                Preço{' '}
+                                {orderType === 'priceDec' ? (
+                                    <ArrowDownIcon />
+                                ) : orderType === 'priceGrow' ? (
+                                    <ArrowUpIcon />
+                                ) : null}
+                            </Th>
+                            <Th textAlign={'center'}>Editar</Th>
+                            <Th textAlign={'center'}>Remover</Th>
                         </Tr>
                     </Thead>
                     <Tbody>
                         {page.map((product) => (
-                            <Tr key={product.id} m="0">
-                                <Td>{product.description}</Td>
+                            <Tr key={product.id}>
+                                <Td px="0" py="0">
+                                    {product.description}
+                                </Td>
 
-                                <Td>
+                                <Td px="0" py="0">
                                     {moment(product.dateManu).format(
                                         'DD/MM/YYYY'
                                     )}
                                 </Td>
-                                <Td>
-                                    {product.dateExp === '1111-11-11'
-                                        ? '-'
-                                        : moment(product.dateExp).format(
-                                              'DD/MM/YYYY'
-                                          )}
+                                <Td px="0" py="0">
+                                    {product.dateExp
+                                        ? product.dateExp === '1111-11-11'
+                                            ? '-'
+                                            : moment(product.dateExp).format(
+                                                  'DD/MM/YYYY'
+                                              )
+                                        : '-'}
                                 </Td>
-                                <Td>
+                                <Td px="0" py="0">
                                     R$
                                     {Number(product.price)
                                         .toFixed(2)
                                         .replace('.', ',')}
                                 </Td>
-                                <Td>
-                                    <Button
-                                        bg="transparent"
-                                        onClick={() =>
-                                            handleEditProduct(product)
-                                        }
-                                        _focus={{ bg: 'transparent' }}
-                                        _hover={{ bg: 'transparent' }}
-                                    >
-                                        <EditIcon />
-                                    </Button>
-                                    <Modal
-                                        initialFocusRef={null}
-                                        finalFocusRef={null}
-                                        isOpen={isOpen}
-                                        onClose={onClose}
-                                    >
-                                        <ModalContent bg="gray.700" p="4">
-                                            {productSet.id ? (
-                                                <EditProduct
-                                                    product={productSet}
-                                                />
-                                            ) : null}
-                                            <Center>
-                                                <Button
-                                                    borderRadius={'0'}
-                                                    w="80%"
-                                                    onClick={onClose}
-                                                    colorScheme={'red'}
-                                                >
-                                                    Cancel
-                                                </Button>
-                                            </Center>
-                                        </ModalContent>
-                                    </Modal>
+                                <Td px="0" py="0">
+                                    <Center>
+                                        <Button
+                                            bg="transparent"
+                                            onClick={() =>
+                                                handleEditProduct(product)
+                                            }
+                                            _focus={{ bg: 'transparent' }}
+                                            _hover={{
+                                                bg: 'transparent',
+                                                color: 'teal',
+                                            }}
+                                        >
+                                            <EditIcon />
+                                        </Button>
+                                        <Modal
+                                            initialFocusRef={null}
+                                            finalFocusRef={null}
+                                            isOpen={isOpen}
+                                            onClose={onClose}
+                                        >
+                                            <ModalOverlay
+                                                bg={'rgba(0,0,0,0.1)'}
+                                            />
+                                            <ModalContent bg="gray.800" p="4">
+                                                {productSet.id ? (
+                                                    <EditProduct
+                                                        product={productSet}
+                                                    />
+                                                ) : null}
+                                                <Center>
+                                                    <Button
+                                                        borderRadius={'0'}
+                                                        w="80%"
+                                                        onClick={onClose}
+                                                        colorScheme={'red'}
+                                                    >
+                                                        Fechar
+                                                    </Button>
+                                                </Center>
+                                            </ModalContent>
+                                        </Modal>
+                                    </Center>
                                 </Td>
-                                <Td>
-                                    <Button
-                                        onClick={() =>
-                                            deleteProductbyId(product.id)
-                                        }
-                                        bg="transparent"
-                                        _focus={{ bg: 'transparent' }}
-                                        _hover={{ bg: 'transparent' }}
-                                    >
-                                        <DeleteIcon />
-                                    </Button>
+                                <Td px="0" py="0">
+                                    <Center>
+                                        <Button
+                                            onClick={() =>
+                                                deleteProductbyId(product.id)
+                                            }
+                                            bg="transparent"
+                                            _focus={{ bg: 'transparent' }}
+                                            _hover={{
+                                                bg: 'transparent',
+                                                color: 'red',
+                                            }}
+                                        >
+                                            <DeleteIcon />
+                                        </Button>
+                                    </Center>
                                 </Td>
                             </Tr>
                         ))}
