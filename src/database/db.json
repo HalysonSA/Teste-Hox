@@ -62,6 +62,20 @@
       "dateManu": "2021-10-13",
       "price": "37.84",
       "id": 11
+    },
+    {
+      "description": "Jabuticaba",
+      "dateManu": "2022-08-25",
+      "dateExp": "2022-09-30",
+      "price": "9",
+      "id": 13
+    },
+    {
+      "description": "Goiaba",
+      "dateManu": "2022-03-12",
+      "price": "13",
+      "id": 14,
+      "dateExp": "2022-08-20"
     }
   ]
 }

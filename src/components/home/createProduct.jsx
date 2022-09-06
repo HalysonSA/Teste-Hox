@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import {
     Flex,
@@ -20,7 +20,7 @@ function CreateProductPage() {
     const dispatch = useDispatch();
 
     const [perishable, setPerishable] = useState(false);
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
 
     function verifyPerishable(data) {
         var dateManu = data.dateManu;
@@ -32,28 +32,36 @@ function CreateProductPage() {
             toast.error('Fora do prazo de validade');
             return false;
         } else if (description === '' || price === '') {
-            toast.warning('Preencha todos os campos');
             return false;
         } else {
             return true;
         }
     }
 
-    async function handleChange(data) {
-        if (verifyPerishable(data)) {
-            await api.post('/products', data).then((response) => {
-                dispatch(addProduct(response.data));
+    async function handleCreate(data, e) {
+        e.preventDefault();
+        
+        const verify = verifyPerishable(data);
+
+        try {
+            if (verify) {
+                await api.post('/products', data).then((response) => {
+                    dispatch(addProduct(response.data));
+                });
+                
                 toast.success('Produto cadastrado com sucesso');
-            });
+            }
+        } catch (err) {
+            toast.error('Erro ao cadastrar produto');
         }
-        return false;
+        e.target.reset();
     }
 
     return (
         <Flex justify="center" bg="black" align="center" h="80vh">
             <Center bg="white" h="70vh" px="2em" borderRadius={'md'}>
                 <ToastContainer />
-                <form onSubmit={handleSubmit(handleChange)}>
+                <form onSubmit={handleSubmit(handleCreate)}>
                     <FormControl>
                         <Center mb="3">
                             <Text fontSize="2xl" fontWeight="bold">
@@ -95,7 +103,10 @@ function CreateProductPage() {
                             type="date"
                             max="9999-12-31"
                             disabled={!perishable}
-                            {...register('dateExp')}
+                            {...register(
+                                'dateExp',
+                                perishable ? { required: true } : {}
+                            )}
                             size="md"
                         />
 
